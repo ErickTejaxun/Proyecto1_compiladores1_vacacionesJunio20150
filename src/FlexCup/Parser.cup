@@ -1,0 +1,111 @@
+package ocl1_proyecto1;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.io.PrintWriter;
+//import static olc1_proyecto1.Menu.path;
+parser code
+{:
+    
+	public static void main(String args[]) throws Exception{
+		//new sintactico(new Scanner(new FileInputStream(args[0]))).parse();
+		//new sintactico(new Scanner(System.in)).parse();
+		new sintactico(new Scanner(new java.io.FileReader(path))).parse();
+	}
+	
+	public static String ConvertirObjectToString(Object Obj) {
+	String Str="";
+	if(Obj!=null){
+	Str = Obj.toString();
+	}
+	return Str;
+	}
+	
+	public static double ConvertirObjectToDouble(Object Obj) {
+	String Str = Obj.toString();
+	double NumDouble = Double.valueOf(Str).doubleValue();
+	return NumDouble;
+	}
+	
+	public static int ConvertirObjectToInt(Object Obj) {
+	int NumInt = Integer.parseInt(sintactico.ConvertirObjectToString(Obj));
+	return NumInt;
+	}
+	
+
+        public void syntax_error(Symbol s){
+		report_error("Error de sintaxis. Linea: " + (s.right + 1) +
+		" Columna: " + s.left + ". Texto: \"" + s.value + "\"", null);
+		Errores errores_sintacticos=new Errores();
+		errores_sintacticos.setTipo("Sintactico");
+		errores_sintacticos.setLinea(s.right+1);
+		errores_sintacticos.setColumna(s.left);
+		errores_sintacticos.setDescripcion(ConvertirObjectToString(s.value));
+		//sintactico.listaSintactico.add(errores_sintacticos);
+		Menu.errores_sintacticos.add(errores_sintacticos);
+		
+	}
+
+:}
+
+
+/*Terminlaes*/
+terminal String iniciophp,finphp,abrirparentesis,cerrarparentesis,abrircorchetes,cerrarcorchetes,cerrartitulo,inicio,fin,abrircabecera,cerrarcabecera,abrirtitulo,cerraratitulo,abrircuerpo,cerrarcuerpo,abrirespacio,cerrarespacio,abrirparrafo,cerrarparrafo,saltolinea,abrirtabla,cerrartabla,abrirfila,cerrarfila,abrircolumnacabecera,cerrarcolumnacabecera,abrircolumna,
+cerrarcolumna,id,urlw,urll,definicionvariable,echo,asignacion,punto,puntocoma,comilla,verdadero,falso,abrircorchete,cerrarcorchete,menorque,mayorque,menorigual,mayorigual,distinto,y,o,si,sino,idVariable; 
+terminal Double numero;
+terminal suma,resta,multiplicacion,division;
+
+/*Producciones :v :v y mas :v*/
+non terminal EXPR_INICIO,DECLARACION_VARIABLE,IMPRESION,CONCATENACION,IF,ELSE,VALOR,OPERACION_ARITMETICA,OPERACION_BOOLEANA,COMPARADOR,PHP;
+precedence left suma;
+precedence left resta;
+precedence left multiplicacion;
+precedence left division;
+
+start with EXPR_INICIO;
+
+EXPR_INICIO::= PHP|OPERACION_ARITMETICA|error;
+PHP::= inicio error;
+/*producciones del lenguaje php*/
+/*COMPARADOR::= mayorque
+			 |menorque
+			 |menorigual
+			 |mayorigual
+			 |distinto
+			 |asignacion asignacion;*/
+			 
+/*OPERACION_BOOLEANA::= VALOR COMPARADOR VALOR 
+					  | abrirparentesis OPERACION_BOOLEANA cerrarparentesis 
+					  |OPERACION_BOOLEANA y OPERACION_BOOLEANA 
+					  |OPERACION_BOOLEANA o OPERACION_BOOLEANA 
+					  |;
+VALOR ::=   OPERACION_ARITMETICA
+		   |numero
+		   |id;
+ELSE::= sino abrircorchete IMPRESION cerrarcorchete
+		|sino abrircorchete IF cerrarcorchete
+		|;
+IF::=  si abrirparentesis OPERACION_BOOLEANA cerrarparentesis abrircorchete IMPRESION cerrarcorchete ELSE
+	  |si abrirparentesis OPERACION_BOOLEANA cerrarparentesis abrircabecera IF cerrarcorchete ELSE;
+  
+CONCATENACION::=comilla id comilla punto comilla id comilla
+				|comilla id comilla
+				|comilla id comilla punto 
+				|definicionvariable id
+				|definicionvariable id punto 
+				|;
+IMPRESION::=  IMPRESION echo CONCATENACION puntocoma  
+			 |;
+DECLARACION_VARIABLE::= definicionvariable id asignacion numero puntocoma 
+					   |definicionvariable id asignacion comilla id comilla puntocoma 
+					   |definicionvariable id asignacion falso puntocoma 
+					   |definicionvariable id asignacion verdadero puntocoma 
+					   |definicionvariable id asignacion OPERACION_ARITMETICA puntocoma 
+					   |;
+
+OPERACION_ARITMETICA::= numero suma numero puntocoma{:System.out.println("Suma :v "):}
+					    |numero resta numero puntocoma{:System.out.println("resta :v "):}
+						|numero multiplicacion numero puntocoma{:System.out.println("multi :v "):}
+						|numero division numero puntocoma{:System.out.println("division :v "):} ;
+
+PHP::= iniciophp DECLARACION_VARIABLE IMPRESION finphp
+	  |iniciophp IMPRESION DECLARACION_VARIABLE  finphp;*/
